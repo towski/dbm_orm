@@ -148,11 +148,12 @@ class Model
 	end
 
 	def self.handle_process_exit
-		Signal.trap('EXIT') { 
-			puts "why are we exiting already"
-			Model.db.close 
-			Model.env.close 
-		} if !$USE_DBM
+		at_exit { process_exit } if !$USE_DBM
+	end
+
+	def self.process_exit
+		Model.db.close 
+		Model.env.close 
 	end
 end
 

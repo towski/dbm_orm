@@ -1,9 +1,11 @@
 $TEST = true
 require 'minitest/autorun'
 require_relative 'test_helper'
-require_relative '../lib/model'
+require_relative '../lib/dbm_orm'
 Model.dir = "./db"
-require 'debugger'
+if RUBY_PLATFORM != "java"
+	require 'debugger'
+end
 
 class Attempt < Model
 end
@@ -47,3 +49,4 @@ class ModelTest < MiniTest::Unit::TestCase
 	end
 end
 
+MiniTest::Unit.after_tests { Model.process_exit }
